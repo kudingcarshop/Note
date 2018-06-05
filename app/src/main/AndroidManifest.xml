@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+     Copyright (C) 2010 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License. 
+-->
+
+<!--
+| ============================================================================ |
+|      Modifications on Features list / Changes Request / Problems Report      |
+| **************************************************************************** |
+|    date   |        author        |         Key          |      comment       |
+| **********|**********************|**********************|******************* |
+|    |
+| **********|**********************|**********************|******************* |
+================================================================================
+-->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.kuding.note"
+    android:versionCode="0215102901"
+    android:versionName="v5.1.1.5.0237.0">
+
+    <uses-sdk
+        android:minSdkVersion="20"
+        android:targetSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/notes"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:name=".NoteApplication"
+        tools:replace="android:label,android:allowBackup">
+        <activity
+            android:name="com.kuding.note.ui.NotesListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/NoteHoloTheme"
+
+            android:uiOptions="splitActionBarWhenNarrow"
+
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".activity.SearchResultActivity" />
+        </activity>
+        <activity
+            android:name="com.kuding.note.ui.NoteEditorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection|mcc|mnc|keyboard"
+
+
+            android:launchMode="singleTask"
+            android:theme="@style/mysatus"
+            android:windowSoftInputMode="stateUnchanged">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.kuding.note.NewNote" />
+
+                <!-- <action android:name="com.tcl.note.NewNote" /> -->
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.kuding.note.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.kuding.note.ui.ReminderSettingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/mysatus">
+
+        </activity>
+        <activity
+            android:name="com.kuding.note.ui.SearchResultActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/mysatus"
+
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <provider
+            android:name="com.kuding.note.data.NoteProvider"
+            android:authorities="com.kuding.note"
+            android:exported="true" />
+        <provider
+            android:name="com.kuding.note.SuggestionsProvider"
+            android:authorities="com.kuding.note.SuggestionsProvider"></provider>
+
+        <activity
+            android:name="com.kuding.note.ui.ReminderActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation|screenSize"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:theme="@style/reminderActivitytheme"></activity>
+
+        <receiver android:name="com.kuding.note.util.ReminderReceiver">
+            <intent-filter>
+                <action android:name="com.kuding.note.util.ReminderReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.kuding.note.util.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.kuding.note.util.MusicReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.music.playstatechanged" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver
+            android:name="com.kuding.note.widget.NoteMiniAppProvider"
+            android:label="@string/app_name">
+            <intent-filter>
+
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.mediatek.intent.action.SETTINGS_PACKAGE_DATA_CLEARED" />
+                <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+
+                <action android:name="com.kuding.note.widget.DEL_FROM_APP" />
+
+                <action android:name="com.kuding.note.widget.UPDATE" />
+
+                <action android:name="com.kuding.note.widget.PREVIOUS_CLICK" />
+                <action android:name="com.kuding.note.widget.NEXT_CLICK" />
+                <action android:name="com.kuding.note.widget.DEL_CLICK" />
+
+                <action android:name="com.jrdcom.guestmode.ACTION_GUESTMODE_STATUS_CHANGE" />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/miniapp_info" />
+        </receiver>
+
+
+        <service
+            android:name="com.kuding.note.MediaPlaybackService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.kuding.note.MediaPlaybackService" />
+            </intent-filter>
+        </service>
+
+        <service android:name="com.kuding.note.widget.UpdateWidgetService">
+            <intent-filter>
+                <action android:name="com.jrd.notepad.UPDATE" />
+            </intent-filter>
+        </service>
+        <service android:name="com.kuding.note.widget.MyWidgetService">
+            <intent-filter>
+                <action android:name="com.kuding.note.widget.pre" />
+                <action android:name="com.kuding.note.widget.next" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.kuding.note.util.ResetAlarmsService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.kuding.note.util.ResetAlarmsService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".MyMessageReceiver"
+            android:exported="false"> <!-- 为保证receiver安全，建议设置不可导出，如需对其他应用开放可通过android：permission进行限制 -->
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.sdk.android.push.RECEIVE" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+
+</manifest>

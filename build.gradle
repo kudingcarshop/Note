@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
+        }
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.aliyun.ams:emas-services:1.0.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+allprojects {
+    repositories {
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
+        }
+    }
+}
+
+task myclean{
+    doLast{
+        def removefiles
+        removefiles={String filePath->
+            if(filePath == null || "".equals(filePath.trim())){
+                return
+            }
+            File file = file(filePath)
+            if(file.exists()){
+                def names =["build",".idea","Note.iml","app.iml"]
+                if(file.isFile()){
+                    if(names.contains(file.name)){
+                        file.delete()
+                    }
+                }else{
+                    if(names.contains(file.name)){
+                        file.deleteDir()
+                    }else{
+                        file.listFiles().each{File myfile->
+                            removefiles myfile.getAbsolutePath()
+                        }
+                    }
+                }
+            }
+        }
+        removefiles("./")
+    }
+}
